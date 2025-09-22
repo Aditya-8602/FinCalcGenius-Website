@@ -1,36 +1,103 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# FinCalcGenius
+
+Welcome to FinCalcGenius, a comprehensive, user-friendly, and visually appealing finance calculator website tailored for everyday users.
+
+## Technologies Used
+
+*   **Framework:** [Next.js](https://nextjs.org/) (React)
+*   **Language:** [TypeScript](https://www.typescriptlang.org/)
+*   **Styling:** [Bootstrap](https://getbootstrap.com/) & Custom CSS
+*   **Form Handling:** [Formik](https://formik.org/) & [Yup](https://github.com/jquense/yup) for validation
+*   **Charting:** [Chart.js](https://www.chartjs.org/) with `react-chartjs-2`
+*   **Data Export:** [jsPDF](https://github.com/parallax/jsPDF) for PDF & [SheetJS (xlsx)](https://sheetjs.com/) for Excel
+
+## Folder Structure
+
+The project follows a structure conventional for Next.js applications using the App Router.
+
+```
+C:\Users\Desktop\calculator
+├── src
+│   ├── app
+│   │   ├── api
+│   │   │   └── newsletter
+│   │   │       └── route.ts      # API endpoint for newsletter
+│   │   ├── calculators
+│   │   │   └── [slug]
+│   │   │       └── page.tsx      # Dynamic page for calculators
+│   │   ├── globals.css           # Global styles
+│   │   ├── layout.tsx            # Root layout
+│   │   └── page.tsx              # Homepage
+│   ├── components
+│   │   ├── layout
+│   │   │   ├── Footer.tsx
+│   │   │   └── Header.tsx
+│   │   └── calculators
+│   │       ├── EmiCalculator.tsx
+│   │       └── SipCalculator.tsx
+│   └── ...
+├── public/                     # Static assets
+├── package.json
+└── ...
+```
 
 ## Getting Started
 
-First, run the development server:
+To run the development server locally:
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+1.  **Install Dependencies:**
+    ```bash
+    npm install
+    ```
+2.  **Run the Server:**
+    ```bash
+    npm run dev
+    ```
+    Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## How to Add a New Calculator
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1.  **Create the Component:** Create a new `.tsx` file in `src/components/calculators/` (e.g., `FdCalculator.tsx`). Use `EmiCalculator.tsx` as a template for the form, calculations, and results display.
+2.  **Update the Map:** Open `src/app/calculators/[slug]/page.tsx` and add your new calculator to the `calculatorMap` object.
+    ```javascript
+    const calculatorMap = {
+      'emi': { /* ... */ },
+      'sip': { /* ... */ },
+      'fd': { // Add this
+        component: dynamic(() => import('@/components/calculators/FdCalculator')),
+        title: 'Fixed Deposit Calculator'
+      },
+    };
+    ```
+3.  **Update Homepage:** Open `src/app/page.tsx` and add the new calculator to the `calculators` array to make it appear on the homepage.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Deployment on Hostinger
 
-## Learn More
+This Next.js application is ready for deployment on any platform that supports Node.js, including Hostinger.
 
-To learn more about Next.js, take a look at the following resources:
+1.  **Build the Application:** Before deploying, you need to create a production build.
+    ```bash
+    npm run build
+    ```
+    This will create an optimized build in the `.next` folder.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+2.  **Deploy via Hostinger's hPanel:**
+    a. Log in to your Hostinger account and navigate to your hPanel.
+    b. Go to **Websites** → **Manage** for the domain you want to use.
+    c. In the sidebar, find **Advanced** and click on **Node.js**.
+    d. Click **Create Application**.
+    e. **Application startup file:** Set this to `node_modules/.bin/next`.
+    f. **Application root:** This should be the root of your project directory.
+    g. Click **Create**.
+    h. **Upload Your Files:** Use Hostinger's **File Manager** to upload your entire project (including `node_modules` and the `.next` folder) to the application directory you just configured. Alternatively, you can set up deployment via a private Git repository.
+    i. **Set up the `start` script:** Ensure your `package.json` has a `start` script:
+        ```json
+        "scripts": {
+          "dev": "next dev",
+          "build": "next build",
+          "start": "next start",
+          "lint": "next lint"
+        }
+        ```
+    j. **Install and Build on Server (Alternative to uploading `node_modules`):** A better practice is to upload only your source code (not `node_modules` or `.next`). Then, open the **Terminal** in hPanel, navigate to your project root, and run `npm install` and `npm run build`.
+    k. **Start the App:** In the Node.js section of hPanel, click **Start / Restart** to run your application.
