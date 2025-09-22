@@ -101,3 +101,6 @@ This Next.js application is ready for deployment on any platform that supports N
         ```
     j. **Install and Build on Server (Alternative to uploading `node_modules`):** A better practice is to upload only your source code (not `node_modules` or `.next`). Then, open the **Terminal** in hPanel, navigate to your project root, and run `npm install` and `npm run build`.
     k. **Start the App:** In the Node.js section of hPanel, click **Start / Restart** to run your application.
+
+# FinCalcGenius-Website
+FinCalcGenius is your ultimate online resource for comprehensive and user-friendly financial calculators. Our mission is to empower individuals, from students and freelancers to working professionals, with the tools they need to make informed financial decisions. 
