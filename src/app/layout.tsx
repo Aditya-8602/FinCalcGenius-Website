@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-
-=======
-import { SpeedInsights } from "@vercel/speed-insights/next"
->>>>>>> 2d884ffd7f1bea5d5069b36150edbf27a7560932
+import { SpeedInsights } from "@vercel/speed-insights";
 import type { Metadata } from "next";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./globals.css";
@@ -29,11 +25,7 @@ export default function RootLayout({
           </main>
           <Footer />
         </div>
-<<<<<<< HEAD
-       
-=======
         <SpeedInsights />
->>>>>>> 2d884ffd7f1bea5d5069b36150edbf27a7560932
       </body>
     </html>
   );
