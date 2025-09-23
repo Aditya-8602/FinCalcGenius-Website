@@ -6,7 +6,7 @@ import * as Yup from 'yup';
 import { Doughnut } from 'react-chartjs-2';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import jsPDF from 'jspdf';
-import * as XLSX from 'xlsx';
+import ExcelJS from 'exceljs';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -65,20 +65,29 @@ const EmiCalculator = () => {
     doc.save("emi-results.pdf");
   };
 
-  const handleExportExcel = () => {
-    const data = [
-      ["Loan Amount", formik.values.principal],
-      ["Annual Interest Rate (%)", formik.values.rate],
-      ["Loan Tenure (Years)", formik.values.tenure],
-      ["", ""],
-      ["Monthly EMI", emi.toFixed(2)],
-      ["Total Interest", totalInterest.toFixed(2)],
-      ["Total Payment", totalPayment.toFixed(2)],
+  const handleExportExcel = async () => {
+    const workbook = new ExcelJS.Workbook();
+    const worksheet = workbook.addWorksheet('EMI Results');
+
+    worksheet.columns = [
+      { header: 'Description', key: 'description', width: 30 },
+      { header: 'Value', key: 'value', width: 20 },
     ];
-    const ws = XLSX.utils.aoa_to_sheet(data);
-    const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, "EMI Results");
-    XLSX.writeFile(wb, "emi-results.xlsx");
+
+    worksheet.addRow({ description: 'Loan Amount', value: formik.values.principal });
+    worksheet.addRow({ description: 'Annual Interest Rate (%)', value: formik.values.rate });
+    worksheet.addRow({ description: 'Loan Tenure (Years)', value: formik.values.tenure });
+    worksheet.addRow({});
+    worksheet.addRow({ description: 'Monthly EMI', value: emi.toFixed(2) });
+    worksheet.addRow({ description: 'Total Interest', value: totalInterest.toFixed(2) });
+    worksheet.addRow({ description: 'Total Payment', value: totalPayment.toFixed(2) });
+
+    const buffer = await workbook.xlsx.writeBuffer();
+    const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = 'emi-results.xlsx';
+    link.click();
   };
 
   return (
