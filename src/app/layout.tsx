@@ -1,5 +1,5 @@
-import { injectSpeedInsights } from "@vercel/speed-insights";
-injectSpeedInsights();
+// This is the correct line for Next.js
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata } from "next";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./globals.css";
@@ -27,6 +27,7 @@ export default function RootLayout({
           <Footer />
         </div>
         
+      <SpeedInsights />
       </body>
     </html>
   );
